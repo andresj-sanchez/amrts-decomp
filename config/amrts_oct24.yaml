@@ -1,0 +1,105 @@
+name: Army Men RTS Oct 24 2001 prototype
+sha1: b861c8cbc3b2e33272cb37331d19a757335b1471
+
+options:
+  basename: amrts_oct24
+  target_path: disc/amrts_oct24.elf
+  elf_path: SLPS_999.99
+  base_path: ../
+  platform: ps2
+  compiler: GCC
+
+  asm_path: splat/oct24/asm
+  src_path: splat/oct24/src
+  build_path: build
+
+  find_file_boundaries: False
+  disasm_unknown: True
+  named_regs_for_c_funcs: False
+
+  create_undefined_funcs_auto: True
+  undefined_funcs_auto_path: config/undefined_funcs_auto_oct24.txt
+
+  create_undefined_syms_auto: True
+  undefined_syms_auto_path: config/undefined_syms_auto_oct24.txt
+
+  symbol_addrs_path: config/symbol_addrs_oct24.txt
+
+  extensions_path: tools/splat_ext
+
+  section_order: [".text", ".vutext", ".data", ".rodata", ".libinit", ".libupd", ".gcc_except_table", ".ctors", ".dtors", ".frames", ".sdata"]
+
+  auto_all_sections: [".data", ".rodata"]
+
+subalign: 0x4
+
+segments:
+  - [0x000000, databin, elf_header]
+
+  # Main segment containing all loadable sections
+  - name: main
+    type: code
+    start: 0x001000
+    vram: 0x100000
+    align: 64
+    subalign: 4
+    subsegments:
+      # .text - Main executable code (0x100000 - 0x3CEF80)
+      - [0x001000, asm, text]
+
+      # .vutext - VU microcode (0x3CEF80 - 0x3DC940)
+      - [0x2CFF80, textbin, vutext]
+
+      # .data - Initialized data (0x3DC940 - 0x49D5A0)
+      - [0x2DD940, data, data]
+
+      # .rodata - Read-only data (0x49D5A0 - 0x4D64A0)
+      - [0x39E5A0, .rodata, rodata]
+
+      # .libinit - Library initialization (0x4D64A0 - 0x4D6530)
+      - [0x3D74A0, data, libinit]
+
+      # .libupd - Library update (0x4D6530 - 0x4D6540)
+      - [0x3D7530, data, libupd]
+
+      # .gcc_except_table - Exception handling (0x4D6540 - 0x4DF928)
+      - [0x3D7540, gcc_except_table]
+
+      # .ctors - Global constructors (0x4DF928 - 0x4DFEC0)
+      - [0x3E0928, data, ctors]
+
+      # .dtors - Global destructors (0x4DFEC0 - 0x4E00A4)
+      - [0x3E0EC0, data, dtors]
+
+      # .frames - Frame info (0x4E00A4 - 0x4E00B0)
+      - [0x3E10A4, data, frames]
+
+      # .sdata - Small data (0x4E00B0 - 0x4E00B2)
+      - [0x3E10B0, sdata]
+
+  # Metadata and overlays (not loaded into memory)
+  - [0x3E10B4, databin, reginfo]
+  - [0x3E10D0, databin, dvp_ovlytab]
+  - [0x3E122C, databin, dvp_ovlystrtab]
+  - [0x3E1652, databin, dvp_overlay_0]
+  - [0x3E1E52, databin, dvp_overlay_1]
+  - [0x3E3E52, databin, dvp_overlay_2]
+  - [0x3E5652, databin, dvp_overlay_3]
+  - [0x3E5E52, databin, dvp_overlay_4]
+  - [0x3E6652, databin, dvp_overlay_5]
+  - [0x3E6E52, databin, dvp_overlay_6]
+  - [0x3E7652, databin, dvp_overlay_7]
+  - [0x3E7DEA, databin, dvp_overlay_8]
+  - [0x3E85EA, databin, dvp_overlay_9]
+  - [0x3E95EA, databin, dvp_overlay_10]
+  - [0x3EA5EA, databin, dvp_overlay_11]
+  - [0x3EB5EA, databin, dvp_overlay_12]
+  - [0x3EBBBA, databin, dvp_overlay_13]
+  - [0x3EC3BA, databin, dvp_overlay_14]
+  - [0x3ECBBA, databin, dvp_overlay_15]
+  - [0x3ED3BA, databin, dvp_overlay_16]
+  - [0x3EDBBA, databin, dvp_overlay_17]
+  - [0x3EE3BA, databin, dvp_overlay_18]
+  - [0x3EE6B2, databin, dvp_overlay_19]
+  - [0x3EEEB2, databin, shstrtab]
+  - [0x3EF236]
