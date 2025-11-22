@@ -2,36 +2,39 @@ name: Army Men RTS Oct 24 2001 prototype
 sha1: b861c8cbc3b2e33272cb37331d19a757335b1471
 
 options:
-  basename: amrts_oct24
-  target_path: disc/amrts_oct24.elf
-  elf_path: SLPS_999.99
-  base_path: ../
+  basename: SLPS_999.99
+  target_path: disc/SLPS_999.99
+  base_path: ../..
   platform: ps2
   compiler: GCC
 
-  asm_path: splat/oct24/asm
-  src_path: splat/oct24/src
+  asm_path: asm/SLPS_999.99
+  src_path: src
   build_path: build
+  asset_path: assets
+  ld_script_path: SLPS_999.99.splat.ld
 
   find_file_boundaries: False
   disasm_unknown: True
   named_regs_for_c_funcs: False
 
   create_undefined_funcs_auto: True
-  undefined_funcs_auto_path: config/undefined_funcs_auto_oct24.txt
+  undefined_funcs_auto_path: config/proto/undefined_funcs_auto.txt
 
   create_undefined_syms_auto: True
-  undefined_syms_auto_path: config/undefined_syms_auto_oct24.txt
+  undefined_syms_auto_path: config/proto/undefined_syms_auto.txt
 
-  symbol_addrs_path: config/symbol_addrs_oct24.txt
+  symbol_addrs_path: config/proto/symbol_addrs.txt
 
   extensions_path: tools/splat_ext
 
   section_order: [".text", ".vutext", ".data", ".rodata", ".libinit", ".libupd", ".gcc_except_table", ".ctors", ".dtors", ".frames", ".sdata"]
 
-  auto_all_sections: [".data", ".rodata"]
+  auto_link_sections: [".data", ".rodata"]
 
-subalign: 0x4
+  subalign: 4
+
+  gp_value: 0x4E80A0
 
 segments:
   - [0x000000, databin, elf_header]
